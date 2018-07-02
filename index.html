@@ -1,0 +1,239 @@
+<!Doctype html>
+<html lang="en-US" ng-app="chatApp">
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
+  <link href="assets/style/style.css" rel="stylesheet">
+
+  <script src="assets/js/jquery-3.3.1.min.js"></script>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+  
+  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+  <script>
+	// Initialize Firebase
+	var config = {
+	apiKey: "AIzaSyB4r6FYT8Lg0Oiq50A8zPfjY77w01W3t1Y",
+	authDomain: "parrotspeak-be8b4.firebaseapp.com",
+	databaseURL: "https://parrotspeak-be8b4.firebaseio.com",
+	projectId: "parrotspeak-be8b4",
+	storageBucket: "parrotspeak-be8b4.appspot.com",
+	messagingSenderId: "1000661286480"
+  };
+  firebase.initializeApp(config);
+  </script>
+  
+  <script src="assets/js/app.js"></script>
+<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+  <script>
+  var looker=false;
+  var userName = "Anonymous";
+  var newChat = "blank"
+  
+  $(document).ready(function(){
+	
+	
+	resize();
+  
+  });
+  
+  $(window).on("orientationchange",function(event){
+
+	var t = setTimeout(resize, 300);
+  
+	});
+
+function resize(){
+	var size = $('div#title').height() / 2;
+	
+	$('span img').css({'height':size,'width':size})
+	/*if(looker){
+		looker=false;
+		$('h3.text').text( "Parrot Speak" );
+		$('h1.text').empty();
+	}else{
+		looker=true;
+		$('h1.text').text( "Parrot Speak" );
+		$('h3.text').empty();
+	*/
+}
+
+ // navBar
+function openNav() {
+    document.getElementById("mySidenav").style.width = "75%";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+function show(x){
+
+  $('#title h2').text('Parrot Speak');
+  var y=0;
+  var z=false;
+
+	while($("#"+y).length){
+		y++;
+	}
+
+  for (i = 0; i < y; i++){
+		var idName = $('#'+i).attr('class');
+		if(x==i){
+			$('div#' + idName).show();
+		}else{
+        $('div#' + idName).hide();
+    }
+  }
+  closeNav();
+}
+
+function findFriends(){
+
+  $('div#add').hide();
+  $("div#message").show();
+  $("div#message").append('<div ng-repeat="m in Accounts" class="friend">  <div class="profile">    <img class="profile"    <h2 class="name">{{m.user}}</h2>  </div>  </div><hr>');
+}
+
+// navBar
+var t = 0;
+function addFriends() {
+  $(".sad").hide();
+  addContent(t);
+  t++
+}
+
+function addContent(x) {
+
+
+    $("div#message").append('<div class="friend">  <div class="profile">    <img class="parrot" src="assets/images/sadparrot.gif">    <img class="profile" src="assets/images/ProfileTest.jpg">    <img class="flag" src="assets/images/flags/USA.png">    <h2 class="name">Drake Curry</h2>    <h3 class="language">English</h3>  </div>  </div><hr>');
+
+
+}
+
+function startChat(sendee){
+
+otherUser = $(sendee).attr("id");
+newUser = userName
+var newUser = newUser.replace(".", "");
+var newUser = newUser.replace("#", "");
+var newUser = newUser.replace("$", "");
+var newUser = newUser.replace("[", "");
+var newUser = newUser.replace("]", "");
+var newUser = newUser.replace("@", "");
+
+var otherUser = otherUser.replace(".", "");
+var otherUser = otherUser.replace("#", "");
+var otherUser = otherUser.replace("$", "");
+var otherUser = otherUser.replace("[", "");
+var otherUser = otherUser.replace("]", "");
+var otherUser = otherUser.replace("@", "");
+
+var allUsers=[newUser.toLowerCase(), otherUser.toLowerCase()]
+allUsers.sort();
+
+newChat = "";
+
+for (i = 0; i < allUsers.length; i++) { 
+    newChat += allUsers[i];
+}
+
+
+show(3);
+$('#title h2').text($(sendee).attr("id"));
+
+}
+</script>
+
+<link rel="icon" type="image/png" href="assets/images/ic_launcher.png">
+<title>Parrot Speak</title>
+
+</head>
+
+<body ng-controller="ChatController">
+<!-- Title Bar -->
+  <div id="mySidenav" style="cursor:pointer;" class="sidenav gradAnim">
+	<a class="close" onclick="closeNav()"><img style="height:50%; width:50%;" src="assets/images/close.png"></a>
+    <p ng-click="initializeMessenger()" onclick="show(0)"><img id="0" class="message" src="assets/images/parrot.gif">Messenger</p>
+    <p onclick="show(1)"><img id="1" class="contribute" src="assets/images/parrotdad.gif">Contribute to the party</p>
+	<p ng-click="initializeMessenger()" onclick="logout()">Sign Out</p>
+    <p onclick="show(6)"><img id="6" class="languageChange"></p>
+	<a id="2" class="add"></a>
+	<p onclick="show(3)"><img id="3" class="chatbox"></p>
+	<p onclick="show(4)"><img id="4" class="login_div"></p>
+	<p onclick="show(5)"><img id="5" class="signup"></p>
+	<p onclick="show(7)"><img id="7" class="findFriends"></p>
+  </div>
+
+  <div id="title" class="gradAnim absolute">
+  	<h2 class="text">Parrot Speak</h2>
+	<h3 class="text"></h3>
+  	<p id = "score">Translated by Google Translate</p>
+  </div>
+  <!-- onmouseout="closeNav()" -->
+  <span hidden id="SliderNav"  style="cursor:pointer;z-index:3;" onclick="openNav()"><img style="height:5%; width:5%; top:3.5%; position:absolute;" src="assets/images/gear.png"></span>
+<!-- Title Bar -->
+
+<!-- Signin -->
+<div id="login_div" class="main-div absolute">
+    <input type="email" placeholder="Email..." id="email_field" />
+    <input type="password" placeholder="Password..." id="password_field" />
+    <button onclick="login()">Login to Account</button> <button onclick="show(5)">Or signup</button>
+	<div id="google_translate_element"></div><script>
+	function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</div>
+<!-- Signin -->
+
+<!-- Signup -->
+<div id="signup" class="main-div absolute" hidden>
+    <input type="email" placeholder="Email..." id="create_email_field" />
+    <input type="password" placeholder="Password..." id="create_password_field" />
+    <button ng-click="giveUser()" onclick="signup()">Create Account</button><button onclick="show(4)">Or Login</button>
+  </div>
+<!-- Signup -->
+  
+<!-- Messenger -->
+<div id="message" class = "absolute" hidden>
+  <div ng-repeat="m in check" id = "{{m.user}}" onclick="startChat(this)" ng-click="initializeChat()" class="friend">  <div class="profile">    <img class="profile"    <h2 class="name">{{m.user}}</h2>  </div>  <hr></div>
+ 
+</div>
+<!-- Messenger -->
+
+
+<div id="add" class = "absolute" hidden>
+  <img class="gradAnim add" onclick="findFriends()" src="assets/images/add.png">
+</div>
+
+<!-- Chat -->
+<div id = "chatbox" class = "absolute" hidden>
+	<p onclick="show(0)" ng-click="initializeMessenger()" id="backArrow">&#8678;</p>
+	<div class = "chatlogs">
+		<div class = "chat friend" ng-repeat="m in check">
+			<div class = "user-photo"></div>
+				<p class = "chat-message friendAnim">{{m.message}} - {{m.user}}</p>
+			</div>
+
+		</div>
+		<div class = "chat-form">
+			<input type="text" class="form-control" placeholder="Message here..." ng-model="messageText">
+			<button type="submit" class="buttonAnim" ng-click="send()" onclick="$('input').val('');"
+ >Send</button>
+		</div>
+</div>
+<!-- Chat -->
+
+<!-- Contribute -->
+<div id="contribute" class = "absolute" hidden>
+  <img src="assets/images/sirocco.gif">
+  <h1>Welcome to the Kakapo Party Center</h1>
+  <h1>This link will send you to the birthplace of party parrots</h1>
+  <a target="_blank" href="http://cultofthepartyparrot.com/">cultofthepartyparrot.com</a>
+</div>
+<!-- Contribute -->
+
+</body>
+
+</html>
