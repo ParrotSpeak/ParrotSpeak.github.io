@@ -47,6 +47,7 @@ animation: AnimationName 30s ease infinite;
 body{
     background-color:white;
 	font-family: 'Playfair Display', serif;
+  margin: 0px;
 }
 
 p{
