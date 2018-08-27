@@ -44,7 +44,7 @@
 	});
 
 function resize(){
-	var size = $('div#title').height() / 2;
+	var size = $('div#header').height() / 2;
 	
 	$('span img').css({'height':size,'width':size})
 	/*if(looker){
@@ -69,7 +69,7 @@ function closeNav() {
 
 function show(x){
 
-  $('#title h2').text('Parrot Speak');
+  $('#header h2').text('Parrot Speak');
   var y=0;
   var z=false;
 
@@ -140,7 +140,7 @@ for (i = 0; i < allUsers.length; i++) {
 
 
 show(3);
-$('#title h2').text($(sendee).attr("id"));
+$('#header h2').text($(sendee).attr("id"));
 
 }
 </script>
@@ -151,7 +151,7 @@ $('#title h2').text($(sendee).attr("id"));
 </head>
 
 <body ng-controller="ChatController">
-<!-- Title Bar -->
+<!-- Header Bar -->
   <div id="mySidenav" style="cursor:pointer;" class="sidenav gradAnim">
 	<a class="close" onclick="closeNav()"><img style="height:50%; width:50%;" src="assets/images/close.png"></a>
     <p ng-click="initializeMessenger()" onclick="show(0)"><img id="0" class="message" src="assets/images/parrot.gif">Messenger</p>
@@ -165,20 +165,20 @@ $('#title h2').text($(sendee).attr("id"));
 	<p onclick="show(7)"><img id="7" class="findFriends"></p>
   </div>
 
-  <div id="title" class="gradAnim absolute">
+  <div id="header" class="gradAnim absolute">
   	<h2 class="text">Parrot Speak</h2>
 	<h3 class="text"></h3>
   	<p id = "score">Translated by Google Translate</p>
   </div>
   <!-- onmouseout="closeNav()" -->
   <span hidden id="SliderNav"  style="cursor:pointer;z-index:3;" onclick="openNav()"><img style="height:5%; width:5%; top:3.5%; position:absolute;" src="assets/images/gear.png"></span>
-<!-- Title Bar -->
+<!-- Header Bar -->
 
 <!-- Signin -->
 <div id="login_div" class="main-div absolute">
     <input type="email" placeholder="Email..." id="email_field" />
     <input type="password" placeholder="Password..." id="password_field" />
-    <button onclick="login()">Login to Account</button> <button onclick="show(5)">Or signup</button>
+    <button onclick="login()">Login</button> <button onclick="show(5)">Need an account? Register</button>
 	<div id="google_translate_element"></div><script>
 	function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
